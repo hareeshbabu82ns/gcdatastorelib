@@ -96,6 +96,41 @@ devotional-media** )
   DatastoreHandler.newUpdateBuilder().addUpdate(builder).commit();
 ```
 
+## Setting Local Datastore Server
+# Set Environment
+```bash
+  export DATASTORE_HOST=http://localhost:8080
+  export DATASTORE_DATASET=<dataset_id>
+```
+# Create local dataset
+```bash
+  gcd-v1beta2-rev1-2.1.1/gcd.sh create [options] <dataset-directory>
+```
+# Start Dev Server
+```bash
+  gcd-v1beta2-rev1-2.1.1/gcd.sh start [options] <dataset-directory>
+```
+*. [options]
+  *. --port=...
+  *. --host=...
+
+# Datastore Connection code
+```java
+  import com.google.api.services.datastore.client.Datastore;
+  import com.google.api.services.datastore.client.DatastoreHelper;
+
+  // uses the DATASTORE_HOST and DATASTORE_DATASET env variables
+  Datastore datastore = DatastoreHelper.getDatastoreFromEnv();
+```
+# Datastore connection from Emulator
+* on computer => http://localhost:<port>
+* on standard emulator => http//10.0.2.2:<port>
+* on genymotion emulator => http//10.0.3.2:<port>
+
+# Local Dev Admin Console
+```bash
+  http://localhost:8080/_ah/admin
+```
 ## Helpful Links
 
 * [API Help](https://cloud.google.com/datastore/docs/concepts/overview)

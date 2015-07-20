@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":googlecloudstoragelib" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="MediaMetadataCloudStore" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":googlecloudstoragelib" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/../GoogleCloudStoreSample" external.system.id="GRADLE" external.system.module.group="GoogleCloudStoreSample" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -97,10 +97,10 @@
     <orderEntry type="library" exported="" name="google-http-client-protobuf-1.15.0-rc" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-jackson2-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-jackson-1.15.0-rc" level="project" />
-    <orderEntry type="library" exported="" name="google-api-services-datastore-protobuf-v1beta2-rev1-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-asl-1.9.11" level="project" />
-    <orderEntry type="library" exported="" name="guava-jdk5-13.0" level="project" />
+    <orderEntry type="library" exported="" name="google-api-services-datastore-protobuf-v1beta2-rev1-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="protobuf-java-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-jdk5-13.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-oauth-client-1.20.0" level="project" />
   </component>

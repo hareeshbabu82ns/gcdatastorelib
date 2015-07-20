@@ -28,6 +28,7 @@ import com.google.api.services.datastore.DatastoreV1.Value;
 import com.google.api.services.datastore.client.Datastore;
 import com.google.api.services.datastore.client.DatastoreException;
 import com.google.api.services.datastore.client.DatastoreFactory;
+import com.google.api.services.datastore.client.DatastoreHelper;
 import com.google.api.services.datastore.client.DatastoreOptions;
 
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class DatastoreHandler {
   public static final String COLUMN_KEY = "__key__";
   private static DatastoreHandler dsHandler;
   private Datastore datastore = null;
+  private String mHost;
   private String mDataSetID;
   private String mPartition;
   private PartitionId mPartitionID;
@@ -71,11 +73,13 @@ public class DatastoreHandler {
       throw new IllegalStateException("DatastoreHandler Not initialized");
   }
 
-  public static DatastoreHandler get(Context context, String dataset,
+  public static DatastoreHandler get(Context context,
+                                     String host, String dataset,
                                      String partition, String account,
                                      int p12Key)
       throws GeneralSecurityException, IOException {
     dsHandler = new DatastoreHandler();
+    dsHandler.mHost = host;
     dsHandler.mServiceAccount = account;
     if (partition != null) {
       dsHandler.mPartition = partition;
@@ -84,6 +88,13 @@ public class DatastoreHandler {
     dsHandler.mDataSetID = dataset;
     dsHandler.datastore = DatastoreFactory.get().create(buildOptions(context, p12Key));
     return dsHandler;
+  }
+
+  public static DatastoreHandler get(Context context, String dataset,
+                                     String partition, String account,
+                                     int p12Key)
+      throws GeneralSecurityException, IOException {
+    return get(context, null, dataset, partition, account, p12Key);
   }
 
   public static Key.Builder makeKeyWithPartition(Object... elements) {
@@ -110,6 +121,8 @@ public class DatastoreHandler {
       IOException {
     DatastoreOptions.Builder options = new DatastoreOptions.Builder();
     options.dataset(dsHandler.mDataSetID);
+    if (dsHandler.mHost != null)
+      options.host(dsHandler.mHost);
     GoogleCredential credential = getServiceAccountCredential(
         dsHandler.mServiceAccount, context.getResources().openRawResource(p12Key));
     options.credential(credential);
