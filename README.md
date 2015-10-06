@@ -42,19 +42,30 @@ devotional-media** )
   //for single Department Key - for specifying KEY
   Key departmentKey = makeKey(Department.TABLE_KIND, "CSC");
 
-  //for Dtudent key with ancestor as Department
+  //for Student key with ancestor as Department
   Key studentKey = makeKey(Department.TABLE_KIND,deptID,Student.TABLE_KIND);
 ```
 ### Create Entities
 ```java
-  final Key key = Department.create(DatastoreHandler.getDatastore(),
-     "DeptID", "Dept Desc");
-  Student.create(getDatastore(), "StudentName",
-     dateOfBirth,new Date(), key.getPathElement(0).getId());
+  Department dept = new Department();
+  dept.name = "DeptID";
+  dept.description = "Dept Desc";
+  dept.create();
+
+  Student student = new Student(0,dept.mID);
+  student.name = "StudentName";
+  student.dob = calendar.getTime();
+  student.doj = new Date();
+  student.create();
 ```
 
 ### Query Entities
 ```java
+   //fetch all records
+  Department.getEntities(Department.class);
+  Student.getEntities(Student.class, mDept.buildKey().build());
+
+  //using DatastoreHandler
   final List<Entity> entities = DatastoreHandler.newQueryBuilder()
       .setKind(Department.TABLE_KIND)
       .setFilter(Department.COLUMN_NAME,
@@ -81,10 +92,17 @@ devotional-media** )
      DatastoreHandler.findBy(Student.TABLE_KIND, Student.COLUMN_NAME,
          PropertyFilter.Operator.EQUAL, makeValue("StudentName").build())
          .getBatch().getEntityResultList().get(0).getEntity();
+  Department dept = new Department(id);
 ```
 
 ### Update
 ```java
+  Department dept = new Department(id);
+  dept.name = "Dept Code chg";
+  dept.description = "Dept Desc chg";
+  dept.update();
+
+  //using DatastoreHandler
   final Entity.Builder builder = Entity.newBuilder(studentEntityFromLookupOrQuery);
   builder.clearProperty(); //clears all properties except Key
   for (Property property : student.getPropertyList()) {
@@ -97,16 +115,16 @@ devotional-media** )
 ```
 
 ## Setting Local Datastore Server
-# Set Environment
+### Set Environment
 ```bash
   export DATASTORE_HOST=http://localhost:8080
   export DATASTORE_DATASET=<dataset_id>
 ```
-# Create local dataset
+### Create local dataset
 ```bash
   gcd-v1beta2-rev1-2.1.1/gcd.sh create [options] <dataset-directory>
 ```
-# Start Dev Server
+### Start Dev Server
 ```bash
   gcd-v1beta2-rev1-2.1.1/gcd.sh start [options] <dataset-directory>
 ```
@@ -114,7 +132,7 @@ devotional-media** )
   *. --port=...
   *. --host=...
 
-# Datastore Connection code
+### Datastore Connection code
 ```java
   import com.google.api.services.datastore.client.Datastore;
   import com.google.api.services.datastore.client.DatastoreHelper;
@@ -122,12 +140,12 @@ devotional-media** )
   // uses the DATASTORE_HOST and DATASTORE_DATASET env variables
   Datastore datastore = DatastoreHelper.getDatastoreFromEnv();
 ```
-# Datastore connection from Emulator
+### Datastore connection from Emulator
 * on computer => http://localhost:<port>
 * on standard emulator => http//10.0.2.2:<port>
 * on genymotion emulator => http//10.0.3.2:<port>
 
-# Local Dev Admin Console
+### Local Dev Admin Console
 ```bash
   http://localhost:8080/_ah/admin
 ```
